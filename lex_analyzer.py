@@ -1,5 +1,26 @@
 from ply import lex
 
+data = """
+def func1(int A, int B)
+{
+  int SM[2];
+  SM[0] = A + B;
+  SM[1] = B * C;
+  return;
+}
+
+def principal()
+{
+  int C;
+  int D;
+  int R;
+  C = 4;
+  D = 5;
+  R = func1(C, D);
+  return;
+}
+"""
+
 resultado_lexema = []
 
 literals = "+-*/{}[](),;=%"
@@ -133,15 +154,11 @@ def t_error(t):
 lexer = lex.lex()
 
 # Give the lexer some input
-def load_input_data(data):
-    return lexer.input(data)
+lexer.input(data)
 
-
-def print_input_data(data):
-
-    # Tokenize
-    while True:
-        tok = lexer.token()
-        if not tok:
-            break  # No more input
-        print(tok.type, tok.value)
+# Tokenize
+while True:
+    tok = lexer.token()
+    if not tok:
+        break  # No more input
+    print(tok.type, tok.value)
