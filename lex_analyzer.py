@@ -161,4 +161,5 @@ while True:
     tok = lexer.token()
     if not tok:
         break  # No more input
-    print(tok.type, tok.value)
+    print(tok.type) #     print(tok.type, tok.value)
+
