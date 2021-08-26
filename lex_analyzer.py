@@ -24,10 +24,11 @@ def principal()
 
 resultado_lexema = []
 
+# List of tokens that are literals and have only one character
 literals = "+-*/{}[](),;=%"
 
 def t_plus(t):
-    r'\+'
+    r'\+' #scape because + has a meaning in regular expressions
     t.type = '+'     
     return t
 
@@ -96,8 +97,10 @@ def t_mod(t):
     t.type = '%'
     return t
 
+# Token for ignored characters (spaces, tabs, etc.)
 t_ignore = ' \t\r\n'
 
+# Tokens that are reserved keywords
 reserved = {
     'return': 'RETURN',
     'def': 'DEF',
@@ -114,6 +117,7 @@ reserved = {
     'string': 'STRING',
 }
 
+# Tokens
 tokens = [
     "IDENT",
     "RELOP",  # ( <= | < | == | != | > |>=  )
@@ -144,7 +148,7 @@ def t_INT_CONSTANT(t):
     return t
 
 def t_STRING_CONSTANT(t):
-    r'"([^\\\"]|\\.)*"'
+    r'"([^\\\"]|\\.)*"' #Accept a string between quotes and supports scape characters
     t.value = t.value
     return t
 
@@ -162,5 +166,5 @@ while True:
     tok = lexer.token()
     if not tok:
         break  # No more input
-    print(tok.type) #     print(tok.type, tok.value)
+    print(tok.type) #     print the token found
 
