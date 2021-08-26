@@ -1,28 +1,13 @@
 from ply import lex
 
 data = """
-"teste de string literal"
 def func1(int A, int B)
-{
-  int SM[2];
-  SM[0] = A + B;
-  SM[1] = B * C;
-  return;
-}
-
-def principal()
-{
-  int C;
-  int D;
-  int R;
-  C = 4;
-  D = 5;
-  R = func1(C, D);
-  return;
-}
+def func1(int A, int B)
 """
 
 resultado_lexema = []
+tabela_de_simbolos = {}
+erros_lexema = []
 
 # List of tokens that are literals and have only one character
 literals = "+-*/{}[](),;=%"
@@ -98,7 +83,7 @@ def t_mod(t):
     return t
 
 # Token for ignored characters (spaces, tabs, etc.)
-t_ignore = ' \t\r\n'
+t_ignore = ' \t\r'
 
 # Tokens that are reserved keywords
 reserved = {
@@ -152,9 +137,15 @@ def t_STRING_CONSTANT(t):
     t.value = t.value
     return t
 
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
+
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    t.lexer.skip(1)
+  global erros_lexema
+  estado = "** Erro lexico na Linha {:4} Coluna {:4} Valor {:16}".format(str(t.lineno), str(t.lexpos), str(t.value))
+  erros_lexema.append(estado)
+  t.lexer.skip(1)
 
 lexer = lex.lex()
 
@@ -166,5 +157,18 @@ while True:
     tok = lexer.token()
     if not tok:
         break  # No more input
-    print(tok.type) #     print the token found
+    resultado_lexema.append(tok.type)
+    if tok.type == 'IDENT':
+        if tok.value not in tabela_de_simbolos:
+            tabela_de_simbolos[tok.value] = [tok.lineno]
+        else:
+            tabela_de_simbolos[tok.value].append(tok.lineno)
 
+if erros_lexema:
+    for elem in erros_lexema:
+        print(elem)
+else:
+    print(resultado_lexema)
+    print("Tabela de Simbolos")
+    for key, value in tabela_de_simbolos.items():
+        print("Ident: " + key + " linhas: ", value)    
