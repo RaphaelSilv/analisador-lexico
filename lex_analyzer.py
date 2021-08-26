@@ -2,6 +2,80 @@ from ply import lex
 
 resultado_lexema = []
 
+literals = "+-*/{}[](),;=%"
+
+def t_plus(t):
+    r'\+'
+    t.type = '+'     
+    return t
+
+def t_minus(t):
+    r'-'
+    t.type = '-'
+    return t
+
+def t_times(t):
+    r'\*'
+    t.type = '*'     
+    return t
+
+def t_divide(t):
+    r'\/'
+    t.type = '/'
+    return t
+
+def t_lparen(t):
+    r'\('
+    t.type = '('     
+    return t
+
+def t_rparen(t):
+    r'\)'
+    t.type = ')'
+    return t
+
+def t_lcol(t):
+    r'\['
+    t.type = '['     
+    return t
+
+def t_rcol(t):
+    r'\]'
+    t.type = ']'
+    return t
+
+def t_lbrace(t):
+    r'\{'
+    t.type = '{'     
+    return t
+
+def t_rbrace(t):
+    r'\}'
+    t.type = '}'
+    return t
+
+def t_comma(t):
+    r','
+    t.type = ','
+    return t
+    
+def t_semicolon(t):
+    r';'
+    t.type = ';'
+    return t
+    
+def t_at(t):
+    r'='
+    t.type = '='
+    return t
+    
+def t_mod(t):
+    r'%'
+    t.type = '%'
+    return t
+
+t_ignore = " \t"
+
 reserved = {
     'return': 'RETURN',
     'def': 'DEF',
@@ -19,49 +93,13 @@ reserved = {
 }
 
 tokens = [
-    "INT",
-    "FLOAT",
-    "STRING",
     "IDENT",
-    "LPAREN",
-    "RPAREN",
-    "LCOL",
-    "RCOL",
-    "LBRACK",
-    "RBRACK",
-    "COMMA",
-    "SEMICOLON",
-    "PLUS",
-    "MINUS",
-    "TIMES",
-    "DIVIDE",
     "RELOP",  # ( <= | < | == | != | > |>=  )
-    "AT",
-    "MOD",
     "INT_CONSTANT",
     "FLOAT_CONSTANT",
-    "STRING_CONSTANT",
-    "WS",  # (\t, \n)
+    "STRING_CONSTANT"
 ] + list(reserved.values())
 
-
-t_LPAREN = r"\("
-t_RPAREN = r"\)"
-t_LCOL = r"\["
-t_RCOL = r"\]"
-t_LBRACK = r"{"
-t_RBRACK = r"}"
-t_COMMA = r","
-t_SEMICOLON = r";"
-t_PLUS = r"\+"
-t_MINUS = r"-"
-t_TIMES = r"\*"
-t_DIVIDE = r"\/"
-t_AT = r"="
-t_MOD = r"%"
-
-
-t_ignore = " \t"
 
 # t_RELOP = r''
 
@@ -79,7 +117,7 @@ def t_INT_CONSTANT(t):
 
 def t_FLOAT_CONSTANT(t):
     r"\d+"
-    t.value = int(t.value)
+    t.value = float(t.value)
     return t
 
 
