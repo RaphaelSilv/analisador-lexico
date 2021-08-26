@@ -2,8 +2,9 @@ import lex_analyzer as analyzer
 
 
 data = """
-int 3 + int 4 * int 10
-  + -20 *2
+int bar = 7
+foo = 3
+return foo
 """
 
 

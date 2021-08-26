@@ -2,7 +2,23 @@ from ply import lex
 
 resultado_lexema = []
 
-tokens = (
+reserved = {
+    'return': 'RETURN',
+    'def': 'DEF',
+    'break': 'BREAK',
+    'if': 'IF',
+    'else': 'ELSE',
+    'print': 'PRINT',
+    'for': 'FOR',
+    'new': 'NEW',
+    'read': 'READ',
+    'null': 'NULL',
+    'int': 'INT',
+    'float': 'FLOAT',
+    'string': 'STRING',
+}
+
+tokens = [
     "INT",
     "FLOAT",
     "STRING",
@@ -22,21 +38,12 @@ tokens = (
     "RELOP",  # ( <= | < | == | != | > |>=  )
     "AT",
     "MOD",
-    "RETURN",
-    "DEF",
-    "BREAK",
-    "IF",
-    "ELSE",
-    "PRINT",
-    "FOR",
-    "NEW",
-    "READ",
-    "NULL",
     "INT_CONSTANT",
     "FLOAT_CONSTANT",
     "STRING_CONSTANT",
     "WS",  # (\t, \n)
-)
+] + list(reserved.values())
+
 
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
@@ -53,24 +60,15 @@ t_DIVIDE = r"\/"
 t_AT = r"="
 t_MOD = r"%"
 
-t_INT = r"int"
-t_FLOAT = r"float"
-t_STRING = r"string"
-t_PRINT = r"print"
-t_RETURN = r"return"
-t_ELSE = r"else"
-t_READ = r"read"
-t_NULL = r"null"
-t_NEW = r"new"
-t_FOR = r"for"
-t_BREAK = r"break"
-t_IF = r"if"
-t_DEF = r"def"
 
 t_ignore = " \t"
 
 # t_RELOP = r''
-# t_IDENT = r''
+
+def t_IDENT(t):
+    r'[a-zA-Z_] [a-zA-Z_0-9]*'
+    t.type = reserved.get(t. value, 'IDENT')
+    return t
 
 
 def t_INT_CONSTANT(t):
