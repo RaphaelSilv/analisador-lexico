@@ -1,6 +1,7 @@
 from ply import lex
 
 data = """
+"teste de string literal"
 def func1(int A, int B)
 {
   int SM[2];
@@ -143,7 +144,7 @@ def t_INT_CONSTANT(t):
     return t
 
 def t_STRING_CONSTANT(t):
-    r'"([^\\\n]|(\\.))*?"'
+    r'"([^\\\"]|\\.)*"'
     t.value = t.value
     return t
 
