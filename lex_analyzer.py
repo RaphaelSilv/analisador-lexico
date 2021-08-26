@@ -129,7 +129,7 @@ def t_IDENT(t):
     return t
 
 def t_RELOP(t):
-    r'(<=|<|==|>=|>)'
+    r'(<=|<|==|!=|>=|>)'
     return t
 
 def t_FLOAT_CONSTANT(t):
