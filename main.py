@@ -1,12 +1,11 @@
-import ply.lex
-import ply.yacc
+import lex_analyzer as analyzer
 
-from optparse import OptionParser
 
-parser = OptionParser()
-parser.add_option("-f", "--file", dest="filename",
-                  help="specify file path", metavar="FILE")
-parser.add_option("-s", "--source",
-                  help="specify source code")
+data = """
+int 3 + int 4 * int 10
+  + -20 *2
+"""
 
-(options, args) = parser.parse_args()
+
+lexer = analyzer.load_input_data(data)
+analyzer.print_input_data(lexer)
